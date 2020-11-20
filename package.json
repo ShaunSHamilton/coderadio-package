@@ -15,5 +15,6 @@
   "repository": "https://github.com/Sky020/coderadio-package.git",
   "dependencies": {
     "nchan": "^1.0.10"
-  }
+  },
+  "type": "module"
 }

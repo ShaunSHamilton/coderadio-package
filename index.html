@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CodeRadio</title>
+  </head>
+  <body>
+    <button onclick="player()">Play/Pause</button>
+    <input
+      id="slider"
+      max="10"
+      min="0"
+      onchange="handleChange()"
+      type="range"
+    />
+    <audio crossorigin="anonymous" onerror="radio.onPlayerError()"></audio>
+  </body>
+  <script src="./node_modules/nchan/NchanSubscriber.js"></script>
+  <script src="./src/index.js"></script>
+  <script defer>
+    const SUB = new NchanSubscriber(
+      "wss://coderadio-admin.freecodecamp.org/api/live/nowplaying/coderadio"
+    );
+    const radio = new CodeRadio();
+    const audio = document.querySelector("audio");
+    function refer(a) {
+      console.log("refer: ", a);
+      radio._player = a;
+    }
+    function player() {
+      console.log("player: ");
+      audio.src = radio.url;
+      const slider = document.getElementById("slider");
+      radio.togglePlay();
+      if (audio.paused) {
+        audio.play();
+      } else {
+        audio.pause();
+      }
+      slider.value = radio.state.currentVolume;
+    }
+
+    // TODO: audio element is not linked to volume control
+    // Ahmad, what is ref attribute in audio outside of React?
+    function handleChange() {
+      const slider = document.getElementById("slider");
+      let value = slider.value;
+      console.log(value);
+      // radio.setTargetVolume(value / 10);
+      // let { value } = e.target;
+      radio.setTargetVolume(value / 10);
+    }
+  </script>
+</html>
