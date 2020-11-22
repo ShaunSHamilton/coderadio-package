@@ -1,6 +1,3 @@
-// import * as NchanSubscriber from "../node_modules/nchan/NchanSubscriber.js";
-
-// console.log(NchanSubscriber);
 const SUB = new NchanSubscriber(
   "wss://coderadio-admin.freecodecamp.org/api/live/nowplaying/coderadio"
 );
@@ -117,7 +114,7 @@ CodeRadio.prototype.setUrl = function (url = false) {
   if (this.state.playing) this.pause();
 
   this._player.src = url;
-  this.url = url;
+  this.state.url = url;
 
   // Since the `playing` state is initially `null` when the app first loads
   // and is set to boolean when there is an user interaction,
@@ -151,9 +148,9 @@ CodeRadio.prototype.play = function () {
 
     let audioConfig = this.state.audioConfig;
     audioConfig.currentVolume = 0;
-    this.audioConfig = audioConfig;
-    this.playing = true;
-    this.pullMeta = true;
+    this.state.audioConfig = audioConfig;
+    this.state.playing = true;
+    this.state.pullMeta = true;
 
     this.fadeUp();
   }
@@ -194,7 +191,7 @@ CodeRadio.prototype.setTargetVolume = function (v) {
   audioConfig.maxVolume = maxVolume;
   audioConfig.currentVolume = maxVolume;
   this._player.volume = audioConfig.maxVolume;
-  this.audioConfig = audioConfig;
+  this.state.audioConfig = audioConfig;
   console.log(v, maxVolume);
 };
 
@@ -207,7 +204,7 @@ CodeRadio.prototype.fade = function (direction = "down") {
   let audioConfig = { ...this.state.audioConfig };
   audioConfig.targetVolume =
     direction.toLowerCase() === "up" ? this.state.audioConfig.maxVolume : 0;
-  this.audioConfig = audioConfig;
+  this.state.audioConfig = audioConfig;
   this.updateVolume();
 };
 
@@ -258,7 +255,7 @@ CodeRadio.prototype.updateVolume = function () {
     let audioConfig = this.state.audioConfig;
     audioConfig.currentVolume += volumeAdjust;
 
-    this.audioConfig = audioConfig;
+    this.state.audioConfig = audioConfig;
     // The speed at which the audio lowers is also controlled.
     setTimeout(
       () => this.updateVolume(),
@@ -307,7 +304,7 @@ CodeRadio.prototype.setMountToConnection = function (
     url = this.getStreamUrl(mounts);
   }
   this._player.src = url;
-  this.url = url;
+  this.state.url = url;
 };
 
 CodeRadio.prototype.getNowPlaying = function () {
@@ -384,11 +381,11 @@ CodeRadio.prototype.onPlayerError = function () {
       this.setUrl(availableUrls[0]);
     } else {
       // Otherwise, add the url to the errored list, then use another url
-      this.erroredStreams = newErroredStreams;
+      this.state.erroredStreams = newErroredStreams;
       this.setUrl(availableUrls[0]);
     }
   }
 };
 
-// module.export = CodeRadio;
+// modules.exports = CodeRadio;
 // export default CodeRadio;
