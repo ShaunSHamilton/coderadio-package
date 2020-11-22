@@ -19,25 +19,26 @@
   <script src="./node_modules/nchan/NchanSubscriber.js"></script>
   <script src="./src/index.js"></script>
   <script defer>
-    const SUB = new NchanSubscriber(
-      "wss://coderadio-admin.freecodecamp.org/api/live/nowplaying/coderadio"
-    );
-    const radio = new CodeRadio();
+    // const SUB = new NchanSubscriber(
+    //   "wss://coderadio-admin.freecodecamp.org/api/live/nowplaying/coderadio"
+    // );
+
     const audio = document.querySelector("audio");
-    function refer(a) {
-      console.log("refer: ", a);
-      radio._player = a;
-    }
+    const radio = new CodeRadio(audio);
+
+    // radio._player = audio;
     function player() {
-      console.log("player: ");
-      audio.src = radio.url;
+      console.log("player: ", radio.state);
+      // radio._player.src = radio.url;
       const slider = document.getElementById("slider");
       radio.togglePlay();
-      if (audio.paused) {
-        audio.play();
-      } else {
-        audio.pause();
-      }
+      radio._player.src = radio.url;
+
+      // if (audio.paused) {
+      //   audio.play();
+      // } else {
+      //   audio.pause();
+      // }
       slider.value = radio.state.currentVolume;
     }
 

@@ -1,12 +1,12 @@
 // import * as NchanSubscriber from "../node_modules/nchan/NchanSubscriber.js";
 
 // console.log(NchanSubscriber);
-// const SUB = new NchanSubscriber(
-//   "wss://coderadio-admin.freecodecamp.org/api/live/nowplaying/coderadio"
-// );
+const SUB = new NchanSubscriber(
+  "wss://coderadio-admin.freecodecamp.org/api/live/nowplaying/coderadio"
+);
 
-function CodeRadio() {
-  this._player = "";
+function CodeRadio(audio) {
+  this._player = audio;
   this.state = {
     /** *
      * General configuration options
@@ -140,8 +140,9 @@ CodeRadio.prototype.play = function () {
       (stream) => stream.url
     );
 
-    // check if the url has been reseted by pause
+    // check if the url has been reset by pause
     if (!streamUrls.includes(this._player.src)) {
+      console.log("loading...", streamUrls, this._player);
       this._player.src = this.state.url;
       this._player.load();
     }
@@ -315,13 +316,13 @@ CodeRadio.prototype.getNowPlaying = function () {
 
     // We look through the available mounts to find the default mount
     if (this.state.url === "") {
-      this.mounts = np.station.mounts;
-      (this.remotes = np.station.remotes),
+      this.state.mounts = np.station.mounts;
+      (this.state.remotes = np.station.remotes),
         this.setMountToConnection(np.station.mounts, np.station.remotes);
     }
 
     if (this.state.listeners !== np.listeners.current) {
-      this.listeners = np.listeners.current;
+      this.state.listeners = np.listeners.current;
     }
 
     // We only need to update the metadata if the song has been changed
@@ -329,10 +330,10 @@ CodeRadio.prototype.getNowPlaying = function () {
       np.now_playing.song.id !== this.state.currentSong.id ||
       this.state.pullMeta
     ) {
-      this.currentSong = np.now_playing.song;
-      this.songStartedAt = np.now_playing.played_at * 1000;
-      this.songDuration = np.now_playing.duration;
-      this.pullMeta = false;
+      this.state.currentSong = np.now_playing.song;
+      this.state.songStartedAt = np.now_playing.played_at * 1000;
+      this.state.songDuration = np.now_playing.duration;
+      this.state.pullMeta = false;
     }
   });
   SUB.reconnectTimeout = this.state.config.metadataTimer;
