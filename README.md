@@ -15,8 +15,12 @@ Thoughts:
 ```javascript
 import CodeRadio from "@freecodecamp/coderadio"; // Not real, yet
 
-const radio = new CodeRadio();
 const audio = document.querySelector("audio");
+const radio = new CodeRadio(audio);
+
+document.querySelector("button").addEventListener("click", () => {
+  radio.togglePlay();
+});
 ```
 
 ---
