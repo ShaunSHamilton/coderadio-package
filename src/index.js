@@ -1,10 +1,10 @@
-import NchanSubscriber from "nchan";
+// import NchanSubscriber from "nchan";
 
 const SUB = new NchanSubscriber(
   "wss://coderadio-admin.freecodecamp.org/api/live/nowplaying/coderadio"
 );
 
-export default function CodeRadio(audio) {
+function CodeRadio(audio) {
   this._player = audio;
   this.state = {
     /** *
@@ -390,3 +390,4 @@ CodeRadio.prototype.onPlayerError = function () {
 };
 
 // module.exports = CodeRadio;
+// export default CodeRadio;
