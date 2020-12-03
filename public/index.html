@@ -3,10 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="//s3.amazonaws.com/freecodecamp/favicons/favicon.ico"
+      rel="shortcut icon"
+    />
     <title>Code Radio Test</title>
   </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      background-color: #0a0a23;
+      color: #fff;
+    }
+    body {
+      width: 100%;
+      height: 100vh;
+      display: grid;
+      justify-content: center;
+      text-align: center;
+    }
+    button {
+      font-size: 2rem;
+      height: fit-content;
+      margin: auto;
+      background-color: #016401;
+      padding: 0.4rem;
+    }
+  </style>
   <body>
     <button id="play">Play/Pause</button>
+    <label for="slider"
+      >Volume (not configured)
+      <input id="slider" name="slider" type="range" />
+    </label>
     <audio id="aud"></audio>
   </body>
   <script async src="../dist/bundle.js"></script>
